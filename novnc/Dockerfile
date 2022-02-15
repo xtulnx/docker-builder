@@ -10,13 +10,13 @@ LABEL authors="Jason.liao <xtulnx@126.com>"
 # 环境变量
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
-	\
+    \
     HOME=/root \
     LANG=C.UTF-8 \
     LANGUAGE=zh_CN:zh:en_US:en \
     LC_ALL=C.UTF-8 \
-	\
-	DISPLAY=:0.0 \
+    \
+    DISPLAY=:0.0 \
     DISPLAY_WIDTH=1024 \
     DISPLAY_HEIGHT=768 \
     RUN_XTERM=yes \
@@ -24,14 +24,14 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN set -ex; \
     apt-get update -qqy; \
-    apt-get --no-install-recommends install \
+    apt-get -qqy --no-install-recommends install \
       bash git unzip wget jq curl net-tools \
       xvfb x11vnc fluxbox supervisor xterm \
       novnc \
       locales \
       libglib2.0-0 fontconfig ttf-wqy-microhei \
       ; \
-	\
+    \
     apt-get autoclean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 WORKDIR /app/
