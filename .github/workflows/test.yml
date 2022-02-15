@@ -21,5 +21,5 @@ jobs:
         with:
           url: ${{ secrets.WEBHOOK_URL }}
           headers: '{"Content-Type": "application/json"}'
-          body: '{"msgtype": "markdown","markdown": { "content": " hi ${{ matrix.app-list }} " }}'
+          body: '{"msgtype": "markdown","markdown": { "content": " hi \\n$(cat ${{ matrix.app-list }}/README.md | tr -d "\n") " }}'
 
