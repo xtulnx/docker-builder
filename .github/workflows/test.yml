@@ -16,6 +16,10 @@ jobs:
           echo "##[set-output name=version;]VERSION=${GITHUB_REF#$"refs/tags/v"}"
           echo "##[set-output name=version_tag;]$GITHUB_REPOSITORY:${GITHUB_REF#$"refs/tags/v"}"
           echo "##[set-output name=latest_tag;]$GITHUB_REPOSITORY:latest"
+          echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+          echo "github.repository: ${{ github.repository }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
       - uses: actions/checkout@v2
       - name: Message - ${{ matrix.app-list }}
         id: msg_step
