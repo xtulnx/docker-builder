@@ -27,5 +27,5 @@ jobs:
         with:
           url: ${{ secrets.WEBHOOK_URL }}
           headers: '{"Content-Type": "application/json"}'
-          body: '{"msgtype": "markdown","markdown": { "content": " hi \\n${{ steps.msg_step.outputs.msg }} " }}'
+          body: '{"msgtype": "markdown","markdown": { "content": " hi \n${{ steps.msg_step.outputs.msg }} " }}'
 
