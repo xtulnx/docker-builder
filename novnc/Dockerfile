@@ -2,10 +2,10 @@ FROM debian:buster
 LABEL authors="Jason.liao <xtulnx@126.com>"
 
 
-RUN echo "deb http://mirrors.aliyun.com/debian/ buster main non-free contrib\n" > /etc/apt/sources.list \
-  && echo "deb http://mirrors.aliyun.com/debian-security buster/updates main\n" >> /etc/apt/sources.list \
-  && echo "deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib\n" >> /etc/apt/sources.list \
-  && echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib\n" >> /etc/apt/sources.list
+##RUN echo "deb http://mirrors.aliyun.com/debian/ buster main non-free contrib\n" > /etc/apt/sources.list \
+##  && echo "deb http://mirrors.aliyun.com/debian-security buster/updates main\n" >> /etc/apt/sources.list \
+##  && echo "deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib\n" >> /etc/apt/sources.list \
+##  && echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib\n" >> /etc/apt/sources.list
 
 # 环境变量
 ENV DEBIAN_FRONTEND=noninteractive \
