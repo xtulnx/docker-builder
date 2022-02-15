@@ -23,20 +23,21 @@ ENV DEBIAN_FRONTEND=noninteractive \
     RUN_FLUXBOX=yes
 
 RUN set -ex; \
-    apt-get update; \
-    apt-get install -y \
+    apt-get update -qqy; \
+    apt-get -qqy --no-install-recommends install \
       bash git unzip wget jq curl net-tools \
       xvfb x11vnc fluxbox supervisor xterm \
       novnc \
       locales \
-      libglib2.0-0 fontconfig fonts-wqy-microhei \
+      libglib2.0-0 fontconfig ttf-wqy-microhei \
        ; \
 	\
 	echo "https://pc.115.com/index.html#linux\n" \
 	  && wget -q https://down.115.com/client/115pc/lin/115pc_1.0.0.16.deb -O /tmp/wp115.deb \
 	  && dpkg -i /tmp/wp115.deb && rm -f /tmp/wp115.deb \
 	\
-    apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    echo "清理安装的缓存" \
+      && apt-get autoclean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 WORKDIR /app/
 COPY ./entrypoint.sh ./supervisord.conf /app/

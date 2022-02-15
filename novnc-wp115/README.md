@@ -16,7 +16,7 @@
 
 中文字体:
 
-* fonts-wqy-microhei
+* 文泉驿微米黑字体 fonts-wqy-microhei
 
 [网盘官网](https://pc.115.com/index.html#linux)
 

@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         app-list:
-          #- novnc
+          - novnc
           - novnc-wp115
       fail-fast: false
     steps:
@@ -16,7 +16,7 @@ jobs:
         id: version_step
         run: |
           echo "##[set-output name=version;]VERSION=${GITHUB_REF#$"refs/tags/v"}"
-          echo "##[set-output name=version_tag;]${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:${GITHUB_REF#*-}"
+          echo "##[set-output name=version_tag;]${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:${GITHUB_REF##*-}"
           echo "##[set-output name=latest_tag;]${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:latest"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1

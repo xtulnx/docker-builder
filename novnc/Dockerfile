@@ -23,16 +23,16 @@ ENV DEBIAN_FRONTEND=noninteractive \
     RUN_FLUXBOX=yes
 
 RUN set -ex; \
-    apt-get update; \
-    apt-get install -y \
+    apt-get update -qqy; \
+    apt-get --no-install-recommends install \
       bash git unzip wget jq curl net-tools \
       xvfb x11vnc fluxbox supervisor xterm \
       novnc \
       locales \
-      libglib2.0-0 fontconfig fonts-wqy-microhei \
+      libglib2.0-0 fontconfig ttf-wqy-microhei \
       ; \
 	\
-    apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    apt-get autoclean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 WORKDIR /app/
 COPY ./entrypoint.sh ./supervisord.conf /app/
