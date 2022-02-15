@@ -10,6 +10,7 @@ jobs:
           - novnc
       fail-fast: false
     steps:
+      - uses: actions/checkout@v2
       - name: Extract Version
         id: version_step
         run: |
