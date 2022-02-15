@@ -29,7 +29,7 @@ RUN set -ex; \
       xvfb x11vnc fluxbox supervisor xterm \
       novnc \
       locales \
-      libglib2.0-0 fontconfig fonts-wqy-zenhei \
+      libglib2.0-0 fontconfig fonts-wqy-microhei \
       ; \
 	\
     apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
