@@ -15,8 +15,8 @@ jobs:
         id: version_step
         run: |
           echo "##[set-output name=version;]VERSION=${GITHUB_REF#$"refs/tags/v"}"
-          echo "##[set-output name=version_tag;]${{ matrix.app-list }}:${GITHUB_REF#$"refs/tags/v"}"
-          echo "##[set-output name=latest_tag;]${{ matrix.app-list }}:latest"
+          echo "##[set-output name=version_tag;]xtulnx/${{ matrix.app-list }}:${GITHUB_REF#$"refs/tags/v"}"
+          echo "##[set-output name=latest_tag;]xtulnx/${{ matrix.app-list }}:latest"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
