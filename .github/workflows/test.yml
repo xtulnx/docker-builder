@@ -19,7 +19,7 @@ jobs:
       - name: Webhook Notify - ${{ matrix.app-list }}
         uses: joelwmale/webhook-action@master
         with:
-          username: ${{ secrets.WEBHOOK_URL }}
+          url: ${{ secrets.WEBHOOK_URL }}
           headers: '{"Content-Type": "application/json"}'
           body: '{"msgtype": "markdown","markdown": { "content": "'$(cat ${{ matrix.app-list }}/README.md|sed 's/$/\\n/g'|tr -d '\n')'" }}'
 
