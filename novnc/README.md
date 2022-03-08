@@ -27,6 +27,7 @@
 * `DISPLAY_HEIGHT=<height>` (768)
 * `RUN_XTERM={yes|no}` (yes)
 * `RUN_FLUXBOX={yes|no}` (yes)
+* `VNC_PASSWORD=<vncPassword>` (空)
 
 ### 运行
 
@@ -36,7 +37,7 @@
 $ docker run --rm -it -p 8080:8080 xtulnx/novnc
 ```
 
-> 使用 docker-compose
+> 使用 docker-compose（只是示例）
 
 ```
 version: "3.3"
@@ -45,10 +46,13 @@ services:
     image: "xtulnx/novnc:latest"
     container_name: novnc
     environment:
-      # Adjust to your screen size
+      # 指定分辨率
       - DISPLAY_WIDTH=1600
       - DISPLAY_HEIGHT=968
+      # 不启动 xterm
       - RUN_XTERM=no
+      # 指定 vnc 连接密码
+      - VNC_PASSWORD=0000000
     ports:
       - "8080:8080"
     networks:
