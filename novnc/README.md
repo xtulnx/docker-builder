@@ -51,7 +51,7 @@ services:
       - DISPLAY_HEIGHT=968
       # 不启动 xterm
       - RUN_XTERM=no
-      # 指定 vnc 连接密码
+      # 指定 vnc 连接密码（默认情况没有密码）
       - VNC_PASSWORD=0000000
     ports:
       - "8080:8080"
@@ -73,7 +73,7 @@ networks:
 ## On DockerHub / GitHub
 ___
 
-* GitHub [xtulnx/docker-builder/novnc](https://github.com/xtulnx/docker-builder/tree/novnc)
+* GitHub [xtulnx/docker-builder/novnc](https://github.com/xtulnx/docker-builder/tree/novnc/novnc)
 
 # Thanks
 ___

@@ -18,7 +18,7 @@
 
 * 文泉驿微米黑字体 fonts-wqy-microhei
 
-[网盘官网](https://pc.115.com/index.html#linux)
+[网盘官网](https://pc.115.com/index.html#linux) 最新版本: V1.0.1.6 最近更新: 2月16日
 
 
 ## 用法
@@ -79,7 +79,7 @@ networks:
 ## On DockerHub / GitHub
 ___
 
-* GitHub [xtulnx/docker-builder/novnc](https://github.com/xtulnx/docker-builder/tree/novnc)
+* GitHub [xtulnx/docker-builder/novnc](https://github.com/xtulnx/docker-builder/tree/novnc/novnc-wp115)
 
 # Thanks
 ___
