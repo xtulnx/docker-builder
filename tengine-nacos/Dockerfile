@@ -16,6 +16,8 @@ ENV HEADERS_MORE_MODULE_VERSION 0.33
 # https://github.com/openresty/set-misc-nginx-module/
 ENV SET_MISC_MODULE_VERSION 0.33
 
+# https://github.com/xtulnx/go-ali-nacos
+ENV J00_NACOS 1.1.0
 
 ENV NGINX_PREFIX /etc/nginx
 ENV NGINX_BIN /usr/sbin/nginx
@@ -108,7 +110,7 @@ RUN     set -x \
                 geoip-dev \
         \
         # 下载 安装 相关模块
-        && SRC=/usr/src && mkdir -p $SRC \
+        && SRC=/usr/src && mkdir -p $SRC && mkdir -p /app \
         # tengine
         && curl -L "https://github.com/alibaba/tengine/archive/$TENGINE_VERSION.tar.gz" -o tengine-$TENGINE_VERSION.tar.gz  \
         && tar -zxC $SRC -f tengine-$TENGINE_VERSION.tar.gz \
@@ -155,6 +157,11 @@ RUN     set -x \
         && mkdir -p ${NGINX_CACHE}} \
         && mkdir -p ${NGINX_CONFIG} \
         \
+        && curl -L "https://github.com/xtulnx/go-ali-nacos/releases/download/v${J00_NACOS}/ali-nacos-${J00_NACOS}-linux-386.tgz" -o ali-nacos-${J00_NACOS}.tgz \
+        && tar -xzC /app/ -f ali-nacos-${J00_NACOS}.tgz \
+        && chmod u+x /app/ali-nacos \
+        && rm -rf "ali-nacos-${J00_NACOS}.tgz" \
+        \
         # Bring in gettext so we can get `envsubst`, then throw
         # the rest away. To do this, we need to install `gettext`
         # then move `envsubst` out of the way so `gettext` can
@@ -182,13 +189,15 @@ RUN     set -x \
         && ln -sf /dev/stdout ${NGINX_LOG}/access.log \
         && ln -sf /dev/stderr ${NGINX_LOG}/error.log
 
+WORKDIR /app/
+
+COPY ./entrypoint.sh /app/
 COPY nginx.conf ${NGINX_PREFIX}/nginx.conf
 COPY ./conf.d/ ${NGINX_CONFIG}/
 
 # VOLUME ${NGINX_CONFIG}
+# VOLUME ${NGINX_PREFIX}/html
 
 EXPOSE 80 443
-
 STOPSIGNAL SIGTERM
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["sh","/app/entrypoint.sh"]

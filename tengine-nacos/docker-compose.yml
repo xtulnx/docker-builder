@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  web:  
+    build: .
+    # image: xtulnx/nginx:tengine-nacos-1.0.0
+    environment:
+      - J00_NACOS.ENDPOINT=acm.aliyun.com
+      - J00_NACOS.NAMESPACEID=3c*******************************769
+      - J00_NACOS.ACCESSKEY=LT********************uK
+      - J00_NACOS.SECRETKEY=ii*************************GRW
+      - J00_GROUP=dev_cd
+      - J00_DATAID=dev_root.toml
+    volumes:
+      - './conf.d:/etc/nginx/conf.d'
+      - './html:/etc/nginx/html'
+    ports:
+      - "8082:80"
+    network_mode: bridge
+

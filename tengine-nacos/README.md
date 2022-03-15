@@ -6,6 +6,7 @@
 
 * [Tengine](https://tengine.taobao.org/) v2.3.3
 * [LuaJIT2](https://github.com/openresty/luajit2) v2.1-20220309 
+* [xtulnx/go-ali-nacos](https://github.com/xtulnx/go-ali-nacos) v1.0.0
 
 模块
 
@@ -22,6 +23,17 @@
 ## 用法
 
 ### 环境变量
+
+> nacos相关设置（[规则详情](https://github.com/xtulnx/go-ali-nacos)）:
+>
+> 注意，考虑终端字符编码的干扰，参数尽量使用简单字符，如 `[0-9A-Za-z]`
+
+* `J00_NACOS.ENDPOINT=<endpoint>`（公网为 acm.aliyun.com）
+* `J00_NACOS.NAMESPACEID=<namespaceId>`（必须）
+* `J00_NACOS.ACCESSKEY=<accessKey>` （公网模式下必须）
+* `J00_NACOS.SECRETKEY=<secretKey>` （公网模式下必须)
+* `J00_GROUP=<资源组名>`
+* `J00_DATAID=<资源名>` 
 
 ### 运行
 
@@ -45,6 +57,13 @@ services:
     ports:
       - "8001:80"
     network_mode: bridge
+    environment:
+      - J00_NACOS.ENDPOINT=acm.aliyun.com
+      - J00_NACOS.NAMESPACEID=34f3****-****-****-****-****454f5184
+      - J00_NACOS.ACCESSKEY=L**********************q
+      - J00_NACOS.SECRETKEY=Z****************************I
+      - J00_GROUP=dev_cd
+      - J00_DATAID=dev_root.toml
     # networks:
 ```
 
@@ -73,7 +92,7 @@ services:
 
 ## On DockerHub / GitHub
 
-* Github [xtulnx/docker-build/nginx/tengine](https://github.com/xtulnx/docker-builder/tree/nginx/tengine)
+* Github [xtulnx/docker-build/nginx/tengine-nacos](https://github.com/xtulnx/docker-builder/tree/nginx/tengine-nacos)
 
 
 ## Thanks

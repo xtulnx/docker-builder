@@ -10,6 +10,9 @@ jobs:
           - app: tengine
             repo: nginx
             pre: tengine-
+          - app: tengine-nacos
+            repo: nginx
+            pre: tengine-nacos-
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
