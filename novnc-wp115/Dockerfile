@@ -33,7 +33,7 @@ RUN set -ex; \
        ; \
 	\
 	echo "https://pc.115.com/index.html#linux\n" \
-	  && wget -q https://down.115.com/client/115pc/lin/115pc_1.0.1.6.deb -O /tmp/wp115.deb \
+	  && wget -q https://down.115.com/client/115pc/lin/115pc_2.0.0.19.deb -O /tmp/wp115.deb \
 	  && dpkg -i /tmp/wp115.deb && rm -f /tmp/wp115.deb \
 	\
     echo "清理安装的缓存" \

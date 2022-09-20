@@ -18,8 +18,7 @@
 
 * 文泉驿微米黑字体 fonts-wqy-microhei
 
-[网盘官网](https://pc.115.com/index.html#linux) 最新版本: V1.0.1.6 最近更新: 2月16日
-
+[网盘官网](https://pc.115.com/index.html#linux) 最新版本: V2.0.0.19 最近更新: 2022年9月2日
 
 ## 用法
 
