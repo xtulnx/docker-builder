@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM ubuntu:20.04
 LABEL authors="Jason.liao <xtulnx@126.com>"
 USER root
 
@@ -33,6 +33,7 @@ RUN apt-get update -qqy && apt-get -qqy install wget gnupg \
 #       google-chrome-unstable=54.0.2840.14-1
 #       latest (equivalent to google-chrome-stable)
 #       google-chrome-beta  (pull latest beta)
+# https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
 #============================================
 ARG CHROME_VERSION="google-chrome-stable"
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -47,7 +48,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 RUN apt-get update -qqy \
   && apt-get install -qqy software-properties-common \
   && add-apt-repository ppa:deadsnakes/ppa \
-  && apt-get install -qqy python3.9 \
+  && apt-get install -qqy python3.10 \
   && apt-get install -qqy python3-pip \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
@@ -60,7 +61,7 @@ COPY ./conf.d /app/conf.d
 
 RUN mkdir -p /app/data /app/web /app/conf2.d \
   && pip install -r /app/requirements.txt \
-  && python3 /app/install.py "${CHROME_DRIVER}" 101 \
+  && python3 /app/install.py "${CHROME_DRIVER}" 108 \
   && rm -rf /app/requirements.txt /app/install.py
 
 CMD ["/app/entrypoint.sh"]
