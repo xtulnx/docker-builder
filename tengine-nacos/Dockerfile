@@ -154,7 +154,7 @@ RUN     set -x \
         && ./configure $CONFIG --with-ld-opt=-Wl,-rpath,$LUAJIT_LIB \
         && make -j$(getconf _NPROCESSORS_ONLN) && make install \
         && cd - && rm -rf "$SRC/tengine-$TENGINE_VERSION/" \
-        && mkdir -p ${NGINX_CACHE}} \
+        && mkdir -p ${NGINX_CACHE} \
         && mkdir -p ${NGINX_CONFIG} \
         \
         && curl -L "https://github.com/xtulnx/go-ali-nacos/releases/download/v${J00_NACOS}/ali-nacos-${J00_NACOS}-linux-386.tgz" -o ali-nacos-${J00_NACOS}.tgz \

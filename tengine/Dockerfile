@@ -152,7 +152,7 @@ RUN     set -x \
         && ./configure $CONFIG --with-ld-opt=-Wl,-rpath,$LUAJIT_LIB \
         && make -j$(getconf _NPROCESSORS_ONLN) && make install \
         && cd - && rm -rf "$SRC/tengine-$TENGINE_VERSION/" \
-        && mkdir -p ${NGINX_CACHE}} \
+        && mkdir -p ${NGINX_CACHE} \
         && mkdir -p ${NGINX_CONFIG} \
         \
         # Bring in gettext so we can get `envsubst`, then throw
