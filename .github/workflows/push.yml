@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         app-list:
-          - novnc
+          # - novnc
           - novnc-wp115
       fail-fast: false
     steps:
