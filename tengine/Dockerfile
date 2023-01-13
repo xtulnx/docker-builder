@@ -15,7 +15,10 @@ ENV UPSYNC_MODULE_VERSION 2.1.3
 ENV HEADERS_MORE_MODULE_VERSION 0.33
 # https://github.com/openresty/set-misc-nginx-module/
 ENV SET_MISC_MODULE_VERSION 0.33
-
+# https://github.com/mpx/lua-cjson/
+ENV LUA_CJSON_VERSION 2.1.0
+# https://github.com/chobits/ngx_http_proxy_connect_module/
+ENV NGX_HTTP_PROXY_CONNECT_VERSION 0.0.4
 
 ENV NGINX_PREFIX /etc/nginx
 ENV NGINX_BIN /usr/sbin/nginx
@@ -87,6 +90,7 @@ ENV CONFIG "\
         --add-module=modules/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} \
         --add-module=modules/set-misc-nginx-module-${SET_MISC_MODULE_VERSION} \
         --add-module=modules/nginx-upsync-module-${UPSYNC_MODULE_VERSION} \
+        --add-dynamic-module=modules/ngx_http_proxy_connect_module-${NGX_HTTP_PROXY_CONNECT_VERSION} \
         "
 
 
@@ -136,6 +140,13 @@ RUN     set -x \
         # && curl -L "https://github.com/openresty/lua-nginx-module/archive/v${LUA_NGINX_MODULE_VERSION}.tar.gz" -o lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
         # && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
         # && rm lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
+        #
+        # 模块 http-proxy-connect-module
+        && curl -L "https://github.com/chobits/ngx_http_proxy_connect_module/archive/refs/tags/v${NGX_HTTP_PROXY_CONNECT_VERSION}.tar.gz" -o ngx_http_proxy_connect_module-${NGX_MOUDLE_HTTP_PROXY}.tar.gz \
+        && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f ngx_http_proxy_connect_module-${NGX_HTTP_PROXY_CONNECT_VERSION}.tar.gz \
+        && patch -d "$SRC/tengine-$TENGINE_VERSION/" -p1 < $SRC/tengine-$TENGINE_VERSION/modules/ngx_http_proxy_connect_module-${NGX_HTTP_PROXY_CONNECT_VERSION}/patch/proxy_connect.patch \
+        && rm ngx_http_proxy_connect_module-${NGX_HTTP_PROXY_CONNECT_VERSION}.tar.gz \
+        #
         # 模块 set-misc-nginx-module
         && curl -L "https://github.com/openresty/set-misc-nginx-module//archive/v${SET_MISC_MODULE_VERSION}.tar.gz" -o set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
         && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
@@ -144,6 +155,12 @@ RUN     set -x \
         && curl -L "https://github.com/weibocom/nginx-upsync-module/archive/v${UPSYNC_MODULE_VERSION}.tar.gz" -o nginx-upsync-module-${UPSYNC_MODULE_VERSION}.tar.gz \
         && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f nginx-upsync-module-${UPSYNC_MODULE_VERSION}.tar.gz \
         && rm nginx-upsync-module-${UPSYNC_MODULE_VERSION}.tar.gz \
+        # Lua cjson:
+        && curl -L "https://github.com/mpx/lua-cjson/archive/refs/tags/${LUA_CJSON_VERSION}.tar.gz" -o lua-cjson-${LUA_CJSON_VERSION}.tar.gz \
+        && tar -xzC $SRC/lua-cjson-${LUA_CJSON_VERSION} -f lua-cjson-${LUA_CJSON_VERSION}.tar.gz \
+        && rm -rf lua-cjson-${LUA_CJSON_VERSION}.tar.gz \
+        && cd $SRC/lua-cjson-${LUA_CJSON_VERSION} && make && make install \
+        && cd - && rm -rf $SRC/lua-cjson-${LUA_CJSON_VERSION} \
         # Lua mysql:
         # .....
         && ls -l $SRC/tengine-$TENGINE_VERSION/modules \
