@@ -16,6 +16,9 @@ ENV HEADERS_MORE_MODULE_VERSION 0.33
 # https://github.com/openresty/set-misc-nginx-module/
 ENV SET_MISC_MODULE_VERSION 0.33
 
+# https://luarocks.org/
+# https://luarocks.github.io/luarocks/releases/
+ENV LUAROCKS_VERSION 3.9.2
 
 ENV NGINX_PREFIX /etc/nginx
 ENV NGINX_BIN /usr/sbin/nginx
@@ -87,6 +90,7 @@ ENV CONFIG "\
         --add-module=modules/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} \
         --add-module=modules/set-misc-nginx-module-${SET_MISC_MODULE_VERSION} \
         --add-module=modules/nginx-upsync-module-${UPSYNC_MODULE_VERSION} \
+        --add-module=modules/ngx_http_proxy_connect_module \
         "
 
 
@@ -124,6 +128,21 @@ RUN     set -x \
         && rm -rf "luajit2-${LUAJIT2_VERSION}/" && rm -rf "luajit2-${LUAJIT2_VERSION}.tar.gz" \
         && export LUAJIT_LIB=${LUAJIT_INSTALL}/lib \
         && export LUAJIT_INC=${LUAJIT_INSTALL}/include/luajit-${LUAJIT_INCLUDE_VERSION} \
+        #
+        # 模块 lua-rocks
+        && curl -L "https://luarocks.org/releases/luarocks-${LUAROCKS_VERSION}.tar.gz" -o "luarocks-${LUAROCKS_VERSION}.tar.gz"\
+        && rm -rf "./luarocks-${LUAROCKS_VERSION}/" && tar -xzf "./luarocks-${LUAROCKS_VERSION}.tar.gz" && cd "./luarocks-${LUAROCKS_VERSION}/" \
+        && ./configure --prefix=${LUAJIT_INSTALL} --with-lua=${LUAJIT_INSTALL} --lua-suffix=jit --with-lua-include=${LUAJIT_INC}/ \
+        && make && make install \
+        && cd .. && rm -rf "./luarocks-${LUAROCKS_VERSION}.tar.gz" "./luarocks-${LUAROCKS_VERSION}/" \
+        && rm -rf ~/.cache/luarocks \
+        && ${LUAJIT_INSTALL}/bin/luarocks install lua-cjson \
+        && ${LUAJIT_INSTALL}/bin/luarocks install base64 \
+        && ${LUAJIT_INSTALL}/bin/luarocks install luasql-mysql \
+        #&& ${LUAJIT_INSTALL}/bin/luarocks install resty-redis-cluster \
+        #&& ${LUAJIT_INSTALL}/bin/luarocks install lua-resty-jwt \
+        && ${LUAJIT_INSTALL}/bin/luarocks install lua-resty-redis \
+        #
         # 模块 headers-more-nginx-module
         && curl -L "https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_MODULE_VERSION}.tar.gz" -o headers-more-nginx-module-${HEADERS_MORE_MODULE_VERSION}.tar.gz \
         && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f headers-more-nginx-module-${HEADERS_MORE_MODULE_VERSION}.tar.gz \
@@ -136,6 +155,7 @@ RUN     set -x \
         # && curl -L "https://github.com/openresty/lua-nginx-module/archive/v${LUA_NGINX_MODULE_VERSION}.tar.gz" -o lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
         # && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
         # && rm lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
+        #
         # 模块 set-misc-nginx-module
         && curl -L "https://github.com/openresty/set-misc-nginx-module//archive/v${SET_MISC_MODULE_VERSION}.tar.gz" -o set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
         && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
@@ -144,6 +164,13 @@ RUN     set -x \
         && curl -L "https://github.com/weibocom/nginx-upsync-module/archive/v${UPSYNC_MODULE_VERSION}.tar.gz" -o nginx-upsync-module-${UPSYNC_MODULE_VERSION}.tar.gz \
         && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f nginx-upsync-module-${UPSYNC_MODULE_VERSION}.tar.gz \
         && rm nginx-upsync-module-${UPSYNC_MODULE_VERSION}.tar.gz \
+        # Lua cjson:
+        #&& curl -L "https://github.com/mpx/lua-cjson/archive/refs/tags/${LUA_CJSON_VERSION}.tar.gz" -o lua-cjson-${LUA_CJSON_VERSION}.tar.gz \
+        #&& tar -xzC $SRC/lua-cjson-${LUA_CJSON_VERSION} -f lua-cjson-${LUA_CJSON_VERSION}.tar.gz \
+        #&& rm -rf lua-cjson-${LUA_CJSON_VERSION}.tar.gz \
+        #&& cd $SRC/lua-cjson-${LUA_CJSON_VERSION} && make && make install \
+        #&& cd - && rm -rf $SRC/lua-cjson-${LUA_CJSON_VERSION} \
+        # .....
         # Lua mysql:
         # .....
         && ls -l $SRC/tengine-$TENGINE_VERSION/modules \
