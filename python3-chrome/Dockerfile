@@ -38,9 +38,8 @@ RUN apt-get update -qqy && apt-get -qqy install wget gnupg \
 ARG CHROME_VERSION="google-chrome-stable"
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update -qqy \
-  && apt-get -qqy install \
-    ${CHROME_VERSION:-google-chrome-stable} \
+  && apt-get update -qqy && apt-cache madison google-chrome-stable \
+  && apt-get -qqy install "${CHROME_VERSION:-google-chrome-stable}" \
   && rm /etc/apt/sources.list.d/google-chrome.list \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
@@ -61,7 +60,7 @@ COPY ./conf.d /app/conf.d
 
 RUN mkdir -p /app/data /app/web /app/conf2.d \
   && pip install -r /app/requirements.txt \
-  && python3 /app/install.py "${CHROME_DRIVER}" 108 \
+  && python3 /app/install.py "${CHROME_DRIVER}" 113 \
   && rm -rf /app/requirements.txt /app/install.py
 
 CMD ["/app/entrypoint.sh"]
