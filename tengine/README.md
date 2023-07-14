@@ -4,16 +4,16 @@
 ## 镜像包括
 
 
-* [Tengine](https://tengine.taobao.org/) v2.3.3
+* [Tengine](https://tengine.taobao.org/) v2.4.1
     * [proxy_connect](http://tengine.taobao.org/document/proxy_connect.html)
-* [LuaJIT2](https://github.com/openresty/luajit2) v2.1-20220309 
+* [LuaJIT2](https://github.com/openresty/luajit2) v2.1-20230410 
 
 模块
 
-* [ngx_devel_kit](https://github.com/simplresty/ngx_devel_kit) v0.3.1
+* [ngx_devel_kit](https://github.com/simplresty/ngx_devel_kit) v0.3.2
 * [nginx-upsync-module](https://github.com/weibocom/nginx-upsync-module) v2.1.3
 * [set-misc-nginx-module](https://github.com/openresty/set-misc-nginx-module/) v0.33
-* [headers-more-nginx-module](https://github.com/openresty/headers-more-nginx-module)  0.33
+* [headers-more-nginx-module](https://github.com/openresty/headers-more-nginx-module)  0.34
 
 
 相关
@@ -64,12 +64,12 @@ services:
    NGINX_CACHE=/var/cache/nginx
    NGINX_LOG=/var/log/nginx
 
-   TENGINE_VERSION=2.3.3
-   LUAJIT2_VERSION=2.1-20220309
-   HEADERS_MORE_MODULE_VERSION=0.33
+   TENGINE_VERSION=2.4.1
+   LUAJIT2_VERSION=2.1-20230410
+   HEADERS_MORE_MODULE_VERSION=0.34
    UPSYNC_MODULE_VERSION=2.1.3
    SET_MISC_MODULE_VERSION=0.33
-   NGX_DEVEL_KIT_VERSION=0.3.1
+   NGX_DEVEL_KIT_VERSION=0.3.2
    ```
 
 * 正向代理测试:

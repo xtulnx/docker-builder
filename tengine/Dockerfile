@@ -2,17 +2,17 @@ FROM alpine:3.15
 LABEL authors="Jason.liao <xtulnx@126.com>"
 
 # https://github.com/alibaba/tengine
-ENV TENGINE_VERSION 2.3.3
+ENV TENGINE_VERSION 2.4.1
 # https://github.com/openresty/luajit2
-ENV LUAJIT2_VERSION 2.1-20220309 
+ENV LUAJIT2_VERSION 2.1-20230410 
 # https://github.com/simplresty/ngx_devel_kit
-ENV NGX_DEVEL_KIT_VERSION 0.3.1
+ENV NGX_DEVEL_KIT_VERSION 0.3.2
 # # https://github.com/openresty/lua-nginx-module/
 # ENV LUA_NGINX_MODULE_VERSION 0.10.13
 # https://github.com/weibocom/nginx-upsync-module
 ENV UPSYNC_MODULE_VERSION 2.1.3
 # https://github.com/openresty/headers-more-nginx-module
-ENV HEADERS_MORE_MODULE_VERSION 0.33
+ENV HEADERS_MORE_MODULE_VERSION 0.34
 # https://github.com/openresty/set-misc-nginx-module/
 ENV SET_MISC_MODULE_VERSION 0.33
 
@@ -99,14 +99,12 @@ RUN     set -x \
         && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
         && adduser -u 82 -D -S -G www-data www-data \
         && apk add --no-cache --virtual .build-deps \
-                gcc \
+                gcc wget make curl \
                 libc-dev \
-                make \
                 openssl-dev \
                 pcre-dev \
                 zlib-dev \
                 linux-headers \
-                curl \
                 libxslt-dev \
                 gd-dev \
                 geoip-dev \
@@ -138,7 +136,7 @@ RUN     set -x \
         && rm -rf ~/.cache/luarocks \
         && ${LUAJIT_INSTALL}/bin/luarocks install lua-cjson \
         && ${LUAJIT_INSTALL}/bin/luarocks install base64 \
-        && ${LUAJIT_INSTALL}/bin/luarocks install luasql-mysql \
+        # && ${LUAJIT_INSTALL}/bin/luarocks install luasql-mysql \
         #&& ${LUAJIT_INSTALL}/bin/luarocks install resty-redis-cluster \
         #&& ${LUAJIT_INSTALL}/bin/luarocks install lua-resty-jwt \
         && ${LUAJIT_INSTALL}/bin/luarocks install lua-resty-redis \
@@ -157,7 +155,7 @@ RUN     set -x \
         # && rm lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz \
         #
         # 模块 set-misc-nginx-module
-        && curl -L "https://github.com/openresty/set-misc-nginx-module//archive/v${SET_MISC_MODULE_VERSION}.tar.gz" -o set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
+        && curl -L "https://github.com/openresty/set-misc-nginx-module/archive/v${SET_MISC_MODULE_VERSION}.tar.gz" -o set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
         && tar -zxC $SRC/tengine-$TENGINE_VERSION/modules -f set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
         && rm set-misc-nginx-module-${SET_MISC_MODULE_VERSION}.tar.gz \
         # 模块 nginx-upsync-module
