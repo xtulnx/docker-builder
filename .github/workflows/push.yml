@@ -15,9 +15,13 @@ jobs:
       - name: Extract Version
         id: version_step
         run: |
-          echo "##[set-output name=version;]VERSION=${GITHUB_REF#$"refs/tags/v"}"
-          echo "##[set-output name=version_tag;]${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:${GITHUB_REF##*-}"
-          echo "##[set-output name=latest_tag;]${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:latest"
+          [ -f "./${{ matrix.app-list }}/VERSION" ] && . ./${{ matrix.app-list }}/VERSION
+          [ -z "$version" ] && version=${GITHUB_REF#$"refs/tags/v"}
+          [ -z "$version_tag" ] && version_tag="${GITHUB_REF##*-}"
+          [ -z "$latest_tag" ] && latest_tag="latest"
+          echo "version=VERSION=${version}" >> "$GITHUB_OUTPUT"
+          echo "version_tag=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:${version_tag}" >> "$GITHUB_OUTPUT"
+          echo "latest_tag=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app-list }}:${latest_tag}" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
